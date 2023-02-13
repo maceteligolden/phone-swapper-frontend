@@ -1,0 +1,13 @@
+/** desktop **/
+.container {
+    width: 100%;
+    background-color: var(--grey);
+    color: var(--white);
+    padding: var(--s1);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s2);
+}
+

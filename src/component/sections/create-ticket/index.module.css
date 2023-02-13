@@ -1,0 +1,19 @@
+/** desktop **/
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s1);
+    padding: var(--s1);
+}
+
+.popcontainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+}
+
+/** mobile **/
+@media screen and (max-width: 900px) {
+    
+}

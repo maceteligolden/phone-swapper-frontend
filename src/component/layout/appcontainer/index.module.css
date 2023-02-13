@@ -1,0 +1,104 @@
+/** desktop **/
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 50px 0px;
+    background-color: var(--white);
+    min-height: 100vh;
+}
+
+.card {
+    height: 100%;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--s3);
+    background-color: var(--white);
+}
+
+.card .header {
+    display: flex;
+    flex-direction: column;
+}
+
+.header .top {
+    padding: var(--s3);
+    border-top-left-radius: var(--s3);
+    border-top-right-radius: var(--s3);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--s1);
+    color: var(--white);
+    background-color: var(--secondary);
+}
+
+.title .backarrow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.card .footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-bottom-right-radius: var(--s3);
+    border-bottom-left-radius: var(--s3);
+    padding: var(--s2);
+    background-color: var(--grey);
+    color: var(--white);
+}
+
+.footer .link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--white);
+}
+
+.footer .menuContainer {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    text-align: center;
+}
+
+/** mobile **/
+@media screen and (max-width: 900px) {
+    .container {
+        padding: 0px;
+    }
+
+    .card {
+        width: 100%;
+        min-height: 100vh;
+        border-radius: 0px;
+        padding-bottom: 10vh;
+    }
+
+    .card .footer {
+        width: 100%;
+        position: fixed;
+        z-index: 5;
+        bottom: 0;
+        left: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .footer .link .hideMobile {
+        display: none;
+    }
+}

@@ -1,0 +1,28 @@
+/** desktop **/
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s3);
+    padding: 50px 100px;
+}
+
+.button {
+    text-align: center;
+    border-radius: var(--s1);
+    padding: var(--s2);
+    background-color: var(--secondary);
+    color: var(--white);
+    transition: 0.3s;
+}
+
+.button:hover {
+    background-color: var(--secondary-hover);
+}
+
+/** mobile **/
+@media screen and (max-width: 900px) {
+    .container {
+        padding: 50px;
+    }
+}

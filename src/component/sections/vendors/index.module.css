@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s2);
+}
+
+.nav {
+    background-color: var(--grey);
+    color: var(--white);
+    padding: var(--s1) var(--s3);
+}
+
+.nav .link {
+    color: var(--white);
+}
+
+.content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s2);
+}
+
+@media screen and (max-width: 900px) {
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--s2);
+    }
+}
