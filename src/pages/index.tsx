@@ -1,4 +1,5 @@
 import styles from '../styles/Home.module.css';
+import imageLoader from '../../loader';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -27,13 +28,14 @@ export default function Home() {
                         </div>
                     </div>
                     <div className={styles.right}>
-                        {/* <div className={styles.imgcontainer}>
+                        <div className={styles.imgcontainer}>
                             <Image
+                                loader={imageLoader}
                                 src="hero.png"
                                 alt="header image"
-                    
+                                layout="fill"
                             />
-                        </div> */}
+                        </div>
                     </div>
                 </div>
             </section>

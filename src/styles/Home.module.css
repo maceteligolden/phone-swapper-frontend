@@ -69,8 +69,10 @@
 
 .right .imgcontainer {
   position: relative;
-  width: 832px;
-  height: 786px;
+  align-self: center;
+  justify-content: center;
+  width: 632px;
+  height: 586px;
 }
 
 
@@ -85,5 +87,12 @@
     padding: 50px;
     display: flex;
     flex-direction: column-reverse;
+  }
+
+  .right .imgcontainer {
+    position: relative;
+    align-self: center;
+    width: 232px;
+    height: 186px;
   }
 }
