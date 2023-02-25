@@ -9,7 +9,7 @@ export interface BaseModel {
 
 export const sungloApi = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1/",
+    baseUrl: "https://stagingphonebackend.herokuapp.com/api/v1/",
     prepareHeaders: (headers, { getState }) => {
       // By default, if we have a token in the state,
       const token: string = (getState() as RootState).auth.token
