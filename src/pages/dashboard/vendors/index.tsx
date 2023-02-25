@@ -5,7 +5,7 @@ export default function Vendors() {
     return (
         <>
             <Appcontainer title={"Dashboard"}>
-              <VendorsContent/>
+              
             </Appcontainer>
         </>
     )

@@ -32,7 +32,7 @@ export default function VendorsContent(props: IVendorsContent) {
                     <Link className={styles.link} href="/dashboard"> Back</Link>
                 </nav>
                 <main className={styles.content}>
-                    {datas.length === 0 ? (
+                    {props.data.length === 0 ? (
                         <p>Oops no deal for you</p>
                     ) :
                         (list)
