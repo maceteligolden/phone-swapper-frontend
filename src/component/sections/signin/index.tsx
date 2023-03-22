@@ -33,6 +33,7 @@ export default function SigninContent() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => { 
+            console.log(values)
             const payload = {
                 email: values.email,
                 password: values.password,
@@ -49,13 +50,13 @@ export default function SigninContent() {
                     localStorage.setItem('user', JSON.stringify(res.data.data.user));
                     router.push('/dashboard').then(()=>{}).catch(() => {});
                 } else if (res.data.status === 401) {
-                  
+                    console.log(res)
                 } else {
-                   
+                   console.log(res)
                 }
                 
-            }).catch(() => {
-                
+            }).catch((e: any) => {
+                console.log(e);
             });
         },
     });
@@ -85,7 +86,7 @@ export default function SigninContent() {
                     helperText={formik.touched.password && formik.errors.password}
                 />
                 <br/>
-                <Button isLoading={isLoading}  label={'Sign In'} onClick={ formik.handleSubmit} />
+                <Button isLoading={isLoading}  label={'Sign In'} onClick={formik.handleSubmit} />
                 
                 <p>Don&apos;t have an account? <Link href="/signup">Create Account</Link></p>
 

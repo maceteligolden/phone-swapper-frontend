@@ -8,6 +8,7 @@ import styles from './index.module.css';
 import * as yup from 'yup';
 import { setCredentials } from '@/lib/slice/authslice';
 import { useFormik } from 'formik';
+import { createModuleResolutionCache } from 'typescript';
 
 export default function SignupContent() {
 
@@ -57,6 +58,7 @@ export default function SignupContent() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
+            console.log(values)
             const payload = {
                 firstname: values.firstname,
                 lastname: values.lastname,
@@ -82,16 +84,16 @@ export default function SignupContent() {
                     void router.push('/dashboard');
                 }
                 else if (res.data?.status === 401) {
-                    
+                    console.log(res.data)
                 }
                 else if (res.data?.status === 402) {
-                    
+                    console.log(res.data)
                 }
                 else {
-                    
-                }
-            }).catch(() => {
-                
+                    console.log(res.data)
+                }   
+            }).catch((e: any) => {
+                console.log(e);
             });
         },
     });
@@ -133,12 +135,52 @@ export default function SignupContent() {
                 <InputField
                     label="Phone Number"
                     placeholder='Phone Number'
-                    type={'tel'}
+                    type={'text'}
                     name={'phone'}
                     value={formik.values.phone}
                     onChange={formik.handleChange}
                     error={formik.touched.phone && Boolean(formik.errors.phone)}
                     helperText={formik.touched.phone && formik.errors.phone}
+                />
+                <InputField
+                    placeholder='Address'
+                    label="Address"
+                    type={'text'}
+                    name={'address'}
+                    value={formik.values.address}
+                    onChange={formik.handleChange}
+                    error={formik.touched.address && Boolean(formik.errors.address)}
+                    helperText={formik.touched.address && formik.errors.address}
+                />
+                <InputField
+                    placeholder='State'
+                    label="State"
+                    type={'text'}
+                    name={'state'}
+                    value={formik.values.state}
+                    onChange={formik.handleChange}
+                    error={formik.touched.state && Boolean(formik.errors.state)}
+                    helperText={formik.touched.state && formik.errors.state}
+                />
+                 <InputField
+                    placeholder='City'
+                    label="City"
+                    type={'text'}
+                    name={'city'}
+                    value={formik.values.city}
+                    onChange={formik.handleChange}
+                    error={formik.touched.city && Boolean(formik.errors.city)}
+                    helperText={formik.touched.city && formik.errors.city}
+                />
+                 <InputField
+                    placeholder='Zipcode'
+                    label="Zipcode"
+                    type={'text'}
+                    name={'zipcode'}
+                    value={formik.values.zipcode}
+                    onChange={formik.handleChange}
+                    error={formik.touched.zipcode && Boolean(formik.errors.zipcode)}
+                    helperText={formik.touched.zipcode && formik.errors.zipcode}
                 />
                 <InputField
                     label="Password"
@@ -161,10 +203,7 @@ export default function SignupContent() {
                     helperText={formik.touched.confirmpassword && formik.errors.confirmpassword}
                 />
                 <br/>
-                <Button
-                    isLoading={isLoading}
-                    label={'Sign Up'}
-                    onClick={formik.handleSubmit} />
+                <Button isLoading={isLoading}  label={'Sign Up'} onClick={formik.handleSubmit} />
                 
                 <p>Already have an account? <Link href="/signin">Sign In</Link></p>
 
