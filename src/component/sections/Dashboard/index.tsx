@@ -23,35 +23,41 @@ export default function DashboardSection() {
     const [typeValue, setTypeValue] = useState<string>('');
     const [budgetValue, setBudgetValue] = useState<string>('');
 
+    // fetch all providers
     const { data, isLoading } = useGetProvidersQuery();
+    
+    // fetch all models
+    const { data: models, isLoading: modelLoading } = useGetModelsQuery({ id: providerValue });
 
-    const { data: models } = useGetModelsQuery({ id: providerValue });
+    // fetch all storage
+    const { data: sizes, isLoading: sizeLoading } = useGetStoragesQuery({ id: modelValue });
+    console.log(modelValue);
 
-    const { data: sizes } = useGetStoragesQuery({ id: modelValue });
+    // search mutation
+//     const [search, { isLoading: any }] = useSearchMutation();
 
-    const [search, { isLoading: any }] = useSearchMutation();
 
-    const router = useRouter()
-
-    const submitHandler = () => {
-        search({
-            provider: providerValue,
-            model: modelValue,
-            desired_provider: desiredPhoneValue,
-            budget: budgetValue,
-            type: typeValue,
-            city: cityValue,
-            state: stateValue,
-            size: sizeValue,
-        }).then((res: any) => {
-            if(res.data.status === 200){
-               setVendors(res.data.data)
-            }
-        })
-    }
+//     // handler to search for vendors
+//     const submitHandler = () => {
+//         search({
+//             provider: providerValue,
+//             model: modelValue,
+//             desired_provider: desiredPhoneValue,
+//             budget: budgetValue,
+//             type: typeValue,
+//             city: cityValue,
+//             state: stateValue,
+//             size: sizeValue,
+//         }).then((res: any) => {
+//             if(res.data.status === 200){
+//                setVendors(res.data.data)
+//             }
+//         })
+//     }
         
     let providers: Iitem[] = [];
 
+    // get providers and add them to array for display
     !isLoading && data.data.map((provider: any) => {
         providers.push({
             id: provider._id,
@@ -60,47 +66,56 @@ export default function DashboardSection() {
         })
     });
 
+    // get all models related to providers
     let filteredModels: Iitem[] = [];
+    if (providerValue) {
+        console.log("Sizes: " + !modelLoading && models?.data);
+        !modelLoading && models?.data.map((filteredModel: any) => {
+            filteredModels.push({
+                id: filteredModel._id,
+                title: filteredModel.model,
+                value: filteredModel._id
+            })
+        });
+    }
 
-    !isLoading && models.data.map((filteredModel: any) => {
-        filteredModels.push({
-            id: filteredModel._id,
-            title: filteredModel.name,
-            value: filteredModel._id
-        })
-    });
-
+    // get all size related to selected model
     let filteredSizes: Iitem[] = [];
+   
 
-    !isLoading && sizes.data.map((filteredSize: any) => {
-        filteredSizes.push({
-            id: filteredSize._id,
-            title: filteredSize.name,
-            value: filteredSize._id
-        })
-    });
+    if (modelValue) {
+        !sizeLoading && sizes?.data.map((filteredSize: any) => {
+            filteredSizes.push({
+                id: filteredSize._id,
+                title: filteredSize.name,
+                value: filteredSize._id
+            })
+        });
+    }
 
-    let States: Iitem[] = [];
+//     let States: Iitem[] = [];
 
-    !isLoading && sizes.data.map((filteredSize: any) => {
-        filteredSizes.push({
-            id: filteredSize._id,
-            title: filteredSize.name,
-            value: filteredSize._id
-        })
-    });
-
+//     !isLoading && sizes.data.map((filteredSize: any) => {
+//         filteredSizes.push({
+//             id: filteredSize._id,
+//             title: filteredSize.name,
+//             value: filteredSize._id
+//         })
+//     });
+    
+    // handles selecting a provider
     const providerHandler = (e: any) => {
         if (modelValue !== '' || sizeValue !== '') {
             setProviderValue(e.target.value);
             setModel(true);
             setSize(true);
         } else {
+            console.log(e.target.value);
             setProviderValue(e.target.value);
             setModel(false);
         }
 
-        checkFields();
+        // checkFields();
     }
 
     const modelHandler = (e: any) => {
@@ -112,48 +127,48 @@ export default function DashboardSection() {
             setSize(false);
         }
 
-        checkFields();
+        // checkFields();
     }
 
     const sizeHandler = (e: any) => {
         setSizeValue(e.target.value);
 
-        checkFields();
+        // checkFields();
     }
 
-    const desiredProviderHandler = (e: any) => {
-        setDesiredPhoneValue(e.target.value);
-        checkFields();
-    }
+//     const desiredProviderHandler = (e: any) => {
+//         setDesiredPhoneValue(e.target.value);
+//         checkFields();
+//     }
 
-    const stateHandler = (e: any) => {
-        if (cityValue !== '') {
-            setCity(true);
-            setStateValue(e.target.value)
-        } else {
-            setStateValue(e.target.value)
-        }
+//     const stateHandler = (e: any) => {
+//         if (cityValue !== '') {
+//             setCity(true);
+//             setStateValue(e.target.value)
+//         } else {
+//             setStateValue(e.target.value)
+//         }
         
-        checkFields();
-    }
+//         checkFields();
+//     }
 
-    const cityHandler = (e: any) => {
-        setCityValue(e.target.value);
-        checkFields();
-    }
+//     const cityHandler = (e: any) => {
+//         setCityValue(e.target.value);
+//         checkFields();
+//     }
 
 
-    const checkFields = () => {
-        if (providerValue !== '' && modelValue !== '' && sizeValue !== '' && stateValue !== '' && cityValue !== '' && desiredPhoneValue !== '' && typeValue !== '') {
-            if (typeValue === 'Upgrade' && budgetValue !== '') {
-               setSubmit(false)
-            } else {
-                setSubmit(false)
-           }
-        } else {
-            setSubmit(true)
-       }
-   }
+//     const checkFields = () => {
+//         if (providerValue !== '' && modelValue !== '' && sizeValue !== '' && stateValue !== '' && cityValue !== '' && desiredPhoneValue !== '' && typeValue !== '') {
+//             if (typeValue === 'Upgrade' && budgetValue !== '') {
+//                setSubmit(false)
+//             } else {
+//                 setSubmit(false)
+//            }
+//         } else {
+//             setSubmit(true)
+//        }
+//    }
 
    
     
@@ -163,11 +178,11 @@ export default function DashboardSection() {
             { vendors.length === 0 && (
                 <section className={styles.container}>
                     <h3>Find Deals</h3>
-                    <form className={styles.container} onSubmit={(e: any) => { e.preventDefault();  submitHandler}}>
+                    <form className={styles.container} onSubmit={(e: any) => { e.preventDefault(); }}>
                         <Dropdown value={providerValue} label={'Select Phone Provider'} items={providers} disabled={false} onChange={providerHandler} required={true} />
                         <Dropdown value={modelValue}  label={'Select Phone Model'} items={filteredModels} disabled={model} onChange={modelHandler} required={true}/>
                         <Dropdown value={sizeValue}  label={'Select Storage size'} items={filteredSizes} disabled={size} onChange={sizeHandler} required={true}/>
-                        <Dropdown value={stateValue}  label={'state'} items={States} disabled={false} onChange={stateHandler} required={true}/>
+                        {/* <Dropdown value={stateValue}  label={'state'} items={States} disabled={false} onChange={stateHandler} required={true}/>
                         <Dropdown value={cityValue}  label={'city'} items={providers} disabled={city} onChange={cityHandler} required/>
                         <Dropdown value={desiredPhoneValue}  label={'Desired Phone Provider'} items={providers} disabled={false} onChange={desiredProviderHandler} required={true}/>
                     <div>
@@ -185,7 +200,7 @@ export default function DashboardSection() {
                     {typeValue === 'Upgrade' && (
                             <InputField type={'number'} label="Budget" value={budgetValue} required={true} onChange={(e: any) => {setBudgetValue(e.target.value)}} />
                     )}
-                        <Button type="submit" label={'Find Deal'} disabled={submit} />
+                        <Button type="submit" label={'Find Deal'} disabled={submit} /> */}
                     </form>
                 </section>
             )}
