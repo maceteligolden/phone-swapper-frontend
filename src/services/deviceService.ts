@@ -10,13 +10,13 @@ export const assetEndpoint = sungloApi.injectEndpoints({
             })
         }),
         getProviders: build.query<any, void>({
-            query: (id) => `devices/providers`
+            query: () => `devices/providers`
         }),
         getStorages: build.query({
-            query: (id) => `devices/storages/${id}`
+            query: ({ id }) => `devices/storages/${id}`
         }),
         getModels: build.query < any, { id: string }>({
-            query: (id) => `devices/models/${id}`
+            query: ({ id }) => `devices/model/${id}`
         }),
     })
 });
