@@ -78,8 +78,8 @@ export default function SignupContent() {
                         token: res.data?.data.token
                     }
                     dispatch(setCredentials(payload));
-                    localStorage.setItem('token', res.data?.data.user);
-                    localStorage.setItem('user', res.data?.data.token);
+                    localStorage.setItem('user', JSON.stringify(res.data.data.user));
+                    localStorage.setItem('token', res.data?.data.token);
 
                     void router.push('/dashboard');
                 }
