@@ -2,7 +2,7 @@ import styles from './index.module.css';
 
 interface IButton {
     label: string,
-    onClick?: () => void,
+    onClick?: (e: any) => void,
     isLoading?: boolean,
     type?: 'submit' | 'button',
     disabled?: boolean
