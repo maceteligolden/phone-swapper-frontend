@@ -9,6 +9,34 @@ export const assetEndpoint = sungloApi.injectEndpoints({
                 body,
             })
         }),
+        addProvider: build.mutation({
+            query: (body) => ({
+                url: "devices/create-provider",
+                method: "POST",
+                body,
+            })
+        }),
+        addModel: build.mutation({
+            query: (body) => ({
+                url: "devices/create-model",
+                method: "POST",
+                body,
+            })
+        }),
+        addDevice: build.mutation({
+            query: (body) => ({
+                url: "devices/create-device",
+                method: "POST",
+                body,
+            })
+        }),
+        addStorage: build.mutation({
+            query: (body) => ({
+                url: "devices/create-storage",
+                method: "POST",
+                body,
+            })
+        }),
         getProviders: build.query<any, void>({
             query: () => `devices/providers`
         }),
@@ -25,5 +53,9 @@ export const {
     useGetModelsQuery,
     useGetStoragesQuery,
     useGetProvidersQuery,
+    useAddDeviceMutation,
+    useAddModelMutation,
+    useAddProviderMutation,
+    useAddStorageMutation,
     useSearchMutation
 } = assetEndpoint;

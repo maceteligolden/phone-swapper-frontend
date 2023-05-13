@@ -5,12 +5,13 @@ interface IDropdown {
     disabled: boolean,
     items: Iitem[],
     onChange: (e: any) => void,
-    required?: boolean
-    value?: any
+    required?: boolean,
+    value?: any,
+    name?: string
 }
 
 export interface Iitem {
-    id: string,
+    id: string | number,
     title: string,
     value: string
 }
@@ -24,7 +25,7 @@ export default function Dropdown(props: IDropdown) {
 
     return (
         <>
-            <select className={styles.container} value={props.value}  disabled={props.disabled} onChange={props.onChange} required>
+            <select className={styles.container} value={props.value} name={props.name} disabled={props.disabled} onChange={props.onChange} required>
                 <option>{props.label}</option>
                 {options}
             </select>

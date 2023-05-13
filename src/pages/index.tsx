@@ -2,6 +2,7 @@ import styles from '../styles/Home.module.css';
 import imageLoader from '../../loader';
 import Image from 'next/image';
 import Link from 'next/link';
+import DashboardSection from '@/component/sections/Dashboard';
 
 export default function Home() {
     return (
@@ -24,7 +25,7 @@ export default function Home() {
                             </span>
                         </h3>
                         <div>
-                            <Link href="signin" className={'heroBtn'}>Get Started</Link>
+                            <Link href="signin" className={'heroBtn'}>Become a Vendor</Link>
                         </div>
                     </div>
                     <div className={styles.right}>
@@ -38,6 +39,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
+                <DashboardSection/>
             </section>
         </>
     )

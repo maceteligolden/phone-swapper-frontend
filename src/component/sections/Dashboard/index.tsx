@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import VendorsContent from '../vendors';
 import styles from './index.module.css';
+import { locations } from '@/constants/location';
 
 export default function DashboardSection() {
 
@@ -16,12 +17,41 @@ export default function DashboardSection() {
     const [modelValue, setModelValue] = useState<string>('');
     const [size, setSize] = useState<boolean>(true);
     const [sizeValue, setSizeValue] = useState<string>('');
-    const [city, setCity] = useState<boolean>(true);
+    const [cities, setCity] = useState<Iitem[]>([]);
     const [cityValue, setCityValue] = useState<string>('');
-    const [stateValue, setStateValue] = useState<string>('');
+    const [state, setState] = useState<string>('');
     const [desiredPhoneValue, setDesiredPhoneValue] = useState<string>('');
     const [typeValue, setTypeValue] = useState<string>('');
     const [budgetValue, setBudgetValue] = useState<string>('');
+
+    let states: Iitem[] = [];
+    let city: Iitem[] = [];
+
+    locations.map((location: any, index: number) => {
+        states.push({
+            id: index.toString(),
+            title: location.state,
+            value: location.state
+        })
+    });
+
+    const handleStateChange = (e: any) => {
+        setState(e.target.value);
+
+        const selectedState = locations.filter((location: any) => { 
+            return location.state === e.target.value;
+        })
+        
+        selectedState[0].lgas.map((lga: any, index: number) => {
+            city.push({
+                id: index.toString(),
+                title: lga,
+                value: lga
+            })
+        });
+
+        setCity(city)
+    }
 
     // fetch all providers
     const { data, isLoading } = useGetProvidersQuery();
@@ -61,13 +91,13 @@ export default function DashboardSection() {
     let providers: Iitem[] = [];
 
     // get providers and add them to array for display
-    !isLoading && data.data.map((provider: any) => {
-        providers.push({
-            id: provider._id,
-            title: provider.name,
-            value: provider._id
-        })
-    });
+    // !isLoading && data.data.map((provider: any) => {
+    //     providers.push({
+    //         id: provider._id,
+    //         title: provider.name,
+    //         value: provider._id
+    //     })
+    // });
 
     // get all models related to providers
     let filteredModels: Iitem[] = [];
@@ -180,14 +210,33 @@ export default function DashboardSection() {
     return (
         <>
             { vendors.length === 0 && (
-                <section className={styles.container}>
-                    <h3>Find Deals</h3>
+                <section className={styles.containr}>
+                   
                     <form className={styles.container} >
+                        <h3>Find Deals</h3>
                         <Dropdown value={providerValue} label={'Select Phone Provider'} items={providers} disabled={false} onChange={providerHandler} required={true} />
                         <Dropdown value={modelValue}  label={'Select Phone Model'} items={filteredModels} disabled={model} onChange={modelHandler} required={true}/>
                         <Dropdown value={sizeValue} label={'Select Storage size'} items={filteredSizes} disabled={size} onChange={sizeHandler} required={true} />
-                        <InputField type={'text'} name="state" placeholder="Enter state" onChange={(e: any) => { setStateValue(e.target.value)}} />
-                        <InputField type={'text'} name="city" placeholder="Enter city" onChange={(e: any) => { setCityValue(e.target.value)}}/>
+                        <Dropdown
+                            label={'Select State'}
+                            items={states}
+                            disabled={false}
+                            value={state}
+                            onChange={handleStateChange}
+                            // error={formik.touched.state && Boolean(formik.errors.state)}
+                            // helperText={formik.touched.state && formik.errors.state}
+                            required={true}
+                        />
+                        <Dropdown
+                            label={'Select City'}
+                            items={cities}
+                            disabled={false}
+                            value={state}
+                            onChange={(e: any)=>{setCityValue(e.target.value)}}
+                            // error={formik.touched.city && Boolean(formik.errors.city)}
+                            // helperText={formik.touched.city && formik.errors.city}
+                            required={true}
+                        />
                         <Dropdown value={desiredPhoneValue}  label={'Desired Phone Provider'} items={providers} disabled={false} onChange={desiredProviderHandler} required={true}/>
                     <div>
                         <div>

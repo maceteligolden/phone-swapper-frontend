@@ -9,12 +9,47 @@ import * as yup from 'yup';
 import { setCredentials } from '@/lib/slice/authslice';
 import { useFormik } from 'formik';
 import { createModuleResolutionCache } from 'typescript';
+import { locations } from '@/constants/location';
+import Dropdown, { Iitem } from '@/component/form/dropdown';
+import { useState } from 'react';
 
 export default function SignupContent() {
+
+    const [state, setState] = useState<string>("");
+    const [cities, setCity] = useState<Iitem[]>([]);
 
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [register, { isLoading }] = useRegisterMutation();
+
+    let states: Iitem[] = [];
+    let city: Iitem[] = [];
+
+    locations.map((location: any, index: number) => {
+        states.push({
+            id: index.toString(),
+            title: location.state,
+            value: location.state
+        })
+    });
+
+    const handleStateChange = (e: any) => {
+        setState(e.target.value);
+
+        const selectedState = locations.filter((location: any) => { 
+            return location.state === e.target.value;
+        })
+        
+        selectedState[0].lgas.map((lga: any, index: number) => {
+            city.push({
+                id: index.toString(),
+                title: lga,
+                value: lga
+            })
+        });
+
+        setCity(city)
+    }
 
     const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -152,25 +187,27 @@ export default function SignupContent() {
                     error={formik.touched.address && Boolean(formik.errors.address)}
                     helperText={formik.touched.address && formik.errors.address}
                 />
-                <InputField
-                    placeholder='State'
-                    label="State"
-                    type={'text'}
+                <Dropdown
+                    label={'Select State'}
+                    items={states}
+                    disabled={false}
                     name={'state'}
-                    value={formik.values.state}
-                    onChange={formik.handleChange}
+                    value={state}
+                    onChange={handleStateChange}
                     error={formik.touched.state && Boolean(formik.errors.state)}
                     helperText={formik.touched.state && formik.errors.state}
+                    required={true}
                 />
-                 <InputField
-                    placeholder='City'
-                    label="City"
-                    type={'text'}
+                  <Dropdown
+                    label={'Select City'}
+                    items={cities}
+                    disabled={false}
                     name={'city'}
-                    value={formik.values.city}
+                    value={state}
                     onChange={formik.handleChange}
                     error={formik.touched.city && Boolean(formik.errors.city)}
                     helperText={formik.touched.city && formik.errors.city}
+                    required={true}
                 />
                  <InputField
                     placeholder='Zipcode'
@@ -203,7 +240,7 @@ export default function SignupContent() {
                     helperText={formik.touched.confirmpassword && formik.errors.confirmpassword}
                 />
                 <br/>
-                <Button isLoading={isLoading}  label={'Sign Up'} onClick={formik.handleSubmit} />
+                <Button type="submit" isLoading={isLoading}  label={'Sign Up'} onClick={formik.handleSubmit} />
                 
                 <p>Already have an account? <Link href="/signin">Sign In</Link></p>
 
